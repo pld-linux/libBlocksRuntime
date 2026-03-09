@@ -2,13 +2,13 @@ Summary:	The runtime library for C blocks support
 Summary(pl.UTF-8):	Biblioteka uruchomieniowa do obsługi bloków w C
 Name:		libBlocksRuntime
 Version:	0.3
-Release:	1
+Release:	2
 License:	MIT-like
 Group:		Libraries
-Source0:	http://downloads.sourceforge.net/blocksruntime/%{name}-%{version}.tar.gz
+Source0:	https://downloads.sourceforge.net/blocksruntime/%{name}-%{version}.tar.gz
 # Source0-md5:	9731dac1aff89a65ba0cb83ad5da9cda
-URL:		http://sourceforge.net/projects/blocksruntime/
-BuildRequires:	clang
+Patch0:		compiler-selection-gcc-first.patch
+URL:		https://sourceforge.net/projects/blocksruntime/
 BuildRequires:	ruby
 BuildRequires:	sed >= 4.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -51,10 +51,10 @@ Statyczna biblioteka BlocksRuntime.
 
 %prep
 %setup -q
+%patch -P0 -p1
 
 %build
 # NOTE: not autoconf configure
-CC="clang" \
 ./configure \
 	--build=%{_target_platform} \
 	--prefix=%{_prefix} \
@@ -64,6 +64,7 @@ CC="clang" \
 %{__sed} -i -e 's@-shared@-shared -Wl,-soname,libBlocksRuntime.so.0@' Makefile
 
 %{__make} \
+	libBlocksRuntime.so libBlocksRuntime.a \
 	CFLAGS="%{rpmcflags}" \
 	LDFLAGS="%{rpmldflags}"
 

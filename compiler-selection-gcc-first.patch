@@ -1,0 +1,11 @@
+--- libBlocksRuntime-0.3/configure.rb.orig	2011-06-17 18:35:23.000000000 +0200
++++ libBlocksRuntime-0.3/configure.rb	2026-03-10 13:42:00.000000000 +0100
+@@ -20,7 +20,7 @@
+ require 'makeconf'
+ 
+ cc = CCompiler.new(
+-  :search => %w{clang}
++  :search => %w{gcc clang}
+ )
+ 
+ project = Project.new(
